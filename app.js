@@ -559,7 +559,7 @@ function constructSearch(query) {
 				if (!searchQuery[j]) {
 					searchQuery[j] = [];
 				}
-				constructQuery[query["mDataProp_"+i]] = new RegExp(search[j]);
+				constructQuery[query["mDataProp_"+i]] = new RegExp(search[j], "i");
 				searchQuery[j].push(constructQuery);
 			}
 		}
