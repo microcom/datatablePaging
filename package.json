@@ -1,0 +1,9 @@
+{
+  "name": "modelproxy",
+  "version": "0.0.1",
+  "author" : "massintha",
+  "dependencies": {
+    "mongoose": ">= 3.6.15",
+    "restify": ">= 2.6.0"
+  }
+}

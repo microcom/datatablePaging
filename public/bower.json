@@ -1,0 +1,16 @@
+{
+	"name": "paging",
+	"ignore": [
+	    "**/.*",
+	    "node_modules",
+	    "bower_components",
+	    "test*",
+	    "demo*",
+	    "gruntFile.js",
+	    "package.json"
+  	],
+	"dependencies": {
+		"jquery" : "~1.x",
+		"datatables" : "~1.x"
+	} 
+}
