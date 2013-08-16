@@ -25,6 +25,7 @@ function fnGetKey( aoData, sKey )
     return null;
 }
  
+// Cache function for serer-side paging
 function fnDataTablesPipeline ( sSource, aoData, fnCallback ) {
     var iPipe = 5; /* Ajust the pipe size */
      

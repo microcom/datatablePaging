@@ -19,6 +19,7 @@ var exampleSchema = new Schema({
 	details: [String]
 });
 
+// Data stored in the database
 var nodes = [
 	{
 		"engine": "Trident",
@@ -581,9 +582,11 @@ function search(query){
 	return findQuery;
 }
 
+// Data returned to the DataTable query
 server.get("/example", function(req, res, next){
 	var directory = mongoose.model('Engine', exampleSchema);
 
+	// First find, then sort finally limit
 	directory.find(search(req.query)).sort(sort(req.query)).skip(req.query.iDisplayStart).limit(req.query.iDisplayLength).execFind(function(err, nodes){
 		directory.count(function(err, count){
 			var result = {
@@ -597,6 +600,7 @@ server.get("/example", function(req, res, next){
 	})
 });
 
+// For adding data in the database
 server.post("/example", function(req, res, next){
 	var directory = mongoose.model('Engine', exampleSchema);
 	directory.create(nodes, function(err, nodes){
@@ -605,6 +609,7 @@ server.post("/example", function(req, res, next){
 	});
 });
 
+// For removing data in the database
 server.del("/example", function(req, res, next){
 	var directory = mongoose.model('Engine', exampleSchema);
 	directory.remove(function(err, nodes){
