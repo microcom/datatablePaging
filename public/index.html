@@ -2,13 +2,19 @@
 <head>
 	<script src="bower_components/jquery/jquery.js"></script>
 	<script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
+	<script src="bower_components/datatables-colvis/media/js/ColVis.js"></script>
+	<script src="datatable_extra/ColReorder-1.0.8/media/js/ColReorder.js"></script>
+	<script src="datatable_extra/AutoFill-1.1.2/media/js/AutoFill.js"></script>
 	<script src="main.js"></script>
 	
 	<link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
+	<link rel="stylesheet" href="bower_components/datatables-colvis/media/css/ColVis.css" />
+	<link rel="stylesheet" href="datatable_extra/ColReorder-1.0.8/media/css/ColReorder.css" />
+	<link rel="stylesheet" href="datatable_extra/AutoFill-1.1.2/media/css/AutoFill.css" />
 
 </head>
 <body>
-	<table class="table table-bordered table-hover" id="example" ng-show="services">
+	<table id="example">
 	</table>
 </body>
 </html>

@@ -103,7 +103,8 @@ function fnDataTablesPipeline ( sSource, aoData, fnCallback ) {
 }
 
 $(document).ready(function() {
-	var oTable = $('#example').dataTable( {
+	var oTable = $('#example').dataTable({
+        "sDom": 'C<"clear">lfrtipRlfrtip',
 		"sPaginationType": "full_numbers",
 		"bProcessing": true,
 		"bServerSide": true,
@@ -116,5 +117,7 @@ $(document).ready(function() {
 	      { "mData": "details.0", sTitle:"details" },
 	      { "mData": "details.1", sTitle:"mode details" }
 	    ]
-	} );
-} );
+	});
+
+    new AutoFill(oTable);
+});
