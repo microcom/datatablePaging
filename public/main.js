@@ -104,7 +104,11 @@ function fnDataTablesPipeline ( sSource, aoData, fnCallback ) {
 
 $(document).ready(function() {
 	var oTable = $('#example').dataTable({
-        "sDom": 'C<"clear">lfrtipRlfrtip',
+        "sDom": 'C<"clear">lfrtip',
+        "oColVis": {
+            "bRestore": true,
+            "aiExclude": [ 0 ]
+        },
 		"sPaginationType": "full_numbers",
 		"bProcessing": true,
 		"bServerSide": true,
@@ -120,4 +124,5 @@ $(document).ready(function() {
 	});
 
     new AutoFill(oTable);
+    new FixedHeader( oTable );
 });
