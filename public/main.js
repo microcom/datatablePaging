@@ -104,10 +104,43 @@ function fnDataTablesPipeline ( sSource, aoData, fnCallback ) {
 
 $(document).ready(function() {
 	var oTable = $('#example').dataTable({
-        "sDom": 'C<"clear">lfrtip',
+        "sDom": '<"clear">ClfrtTpi',
         "oColVis": {
             "bRestore": true,
             "aiExclude": [ 0 ]
+        },
+        /*
+        For Scroller
+        "sScrollY": "200px",
+        "oScroller": {
+            "rowHeight": 30
+        },
+        */
+       "oTableTools": {
+            "sSwfPath": "bower_components/datatables-tabletools/media/swf/copy_csv_xls_pdf.swf",
+            "sRowSelect": "single",
+            "fnRowSelected": function ( nodes ) {
+                console.log( 'row selected' );
+            },
+            "fnRowDeselected": function ( nodes ) {
+                console.log( 'row deselected' );
+            },
+            "aButtons": [
+                "copy",
+                "print",
+                {
+                    "sExtends":    "collection",
+                    "sButtonText": "Save",
+                    "aButtons":    [ "csv", "xls", "pdf" ]
+                },
+                {
+                    "sExtends":    "text",
+                    "sButtonText": "Custom",
+                    "fnClick": function ( nButton, oConfig, oFlash ) {
+                        alert( 'Mouse click' );
+                    }
+                }
+            ]
         },
 		"sPaginationType": "full_numbers",
 		"bProcessing": true,
