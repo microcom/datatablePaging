@@ -145,6 +145,7 @@ $(document).ready(function() {
 		"bProcessing": true,
 		"bServerSide": true,
 		"sAjaxSource": 'example',
+        "bStateSave": true,
 		"fnServerData": fnDataTablesPipeline,
 		"aoColumns": [
 	      { "mData": "engine", sTitle:"engine" },
@@ -152,7 +153,15 @@ $(document).ready(function() {
 	      { "mData": "platform", sTitle:"platform" },
 	      { "mData": "details.0", sTitle:"details" },
 	      { "mData": "details.1", sTitle:"mode details" }
-	    ]
+	    ],
+        "aoColumnDefs": [ {
+            "aTargets": [3],
+            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                if ( sData == "1.7" ) {
+                $(nTd).css('background-color', 'yellow')
+                }
+            }
+        }]
 	});
 
     new AutoFill(oTable);

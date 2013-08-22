@@ -12,6 +12,7 @@
 	"dependencies": {
 		"jquery" : "~1.x",
 		"datatables" : "~1.x",
+		"datatables-plugins" : "",
 		"datatables-colvis" : "",
 		"datatables-tabletools" : ""
 	} 
