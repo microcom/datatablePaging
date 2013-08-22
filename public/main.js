@@ -142,7 +142,6 @@ $(document).ready(function() {
                 }
             ]
         },
-		"sPaginationType": "full_numbers",
 		"bProcessing": true,
 		"bServerSide": true,
 		"sAjaxSource": 'example',
@@ -154,7 +153,7 @@ $(document).ready(function() {
 	      { "mData": "details.0", sTitle:"details" },
 	      { "mData": "details.1", sTitle:"mode details" }
 	    ]
-	}).columnFilter();
+	});
 
     new AutoFill(oTable);
     new FixedHeader( oTable );
