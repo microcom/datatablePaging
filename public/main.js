@@ -104,7 +104,7 @@ function fnDataTablesPipeline ( sSource, aoData, fnCallback ) {
 
 $(document).ready(function() {
 	var oTable = $('#example').dataTable({
-        "sDom": '<"clear">ClfrtTpi',
+        "sDom": 'W<"clear">RlfrtTpi',
         "oColVis": {
             "bRestore": true,
             "aiExclude": [ 0 ]
@@ -154,7 +154,7 @@ $(document).ready(function() {
 	      { "mData": "details.0", sTitle:"details" },
 	      { "mData": "details.1", sTitle:"mode details" }
 	    ]
-	});
+	}).columnFilter();
 
     new AutoFill(oTable);
     new FixedHeader( oTable );
