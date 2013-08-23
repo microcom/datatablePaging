@@ -1,6 +1,7 @@
 var restify = require('restify'),
 	mongoose = require('mongoose'),
-	Schema = mongoose.Schema
+	Schema = mongoose.Schema,
+	querystring = require('querystring');
 
 var port = process.env.PORT || 5000;
 
@@ -18,6 +19,7 @@ var exampleSchema = new Schema({
 	},
 	details: [String]
 });
+var directory = mongoose.model('Engine', exampleSchema);
 
 // Data stored in the database
 var nodes = [
@@ -560,8 +562,10 @@ function constructSearch(query) {
 				if (!searchQuery[j]) {
 					searchQuery[j] = [];
 				}
-				constructQuery[query["mDataProp_"+i]] = new RegExp(search[j], "i");
-				searchQuery[j].push(constructQuery);
+				if (query["mDataProp_"+i] !== "_id") {
+					constructQuery[query["mDataProp_"+i]] = new RegExp(search[j], "i");
+					searchQuery[j].push(constructQuery);
+				}
 			}
 		}
 	}
@@ -584,8 +588,6 @@ function search(query){
 
 // Data returned to the DataTable query
 server.get("/example", function(req, res, next){
-	var directory = mongoose.model('Engine', exampleSchema);
-
 	// First find, then sort finally limit
 	directory.find(search(req.query)).sort(sort(req.query)).skip(req.query.iDisplayStart).limit(req.query.iDisplayLength).execFind(function(err, nodes){
 		directory.count(function(err, count){
@@ -600,9 +602,30 @@ server.get("/example", function(req, res, next){
 	})
 });
 
+// Modify data in the database
+server.post("/example/add", function(req, res, next){
+	var request = querystring.parse(req.body);
+	directory.findById(request._id, function(err, doc){
+		if (err){
+			res.status(400);
+			res.send(err)
+		}
+		else {
+			doc.set(request["column"], request["value"]);
+			doc.save(function(err, doc){
+				if (err) {
+					res.status(400);
+					res.send(err)
+				} else {
+					res.send(doc[request["column"]]);
+				}
+			});
+		}
+	})
+});
+
 // For adding data in the database
 server.post("/example", function(req, res, next){
-	var directory = mongoose.model('Engine', exampleSchema);
 	directory.create(nodes, function(err, nodes){
 		res.send(200);
 		console.log("YEEEEES");
@@ -611,7 +634,6 @@ server.post("/example", function(req, res, next){
 
 // For removing data in the database
 server.del("/example", function(req, res, next){
-	var directory = mongoose.model('Engine', exampleSchema);
 	directory.remove(function(err, nodes){
 		res.send(200);
 		console.log("NOOOOOOO");

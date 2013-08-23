@@ -148,22 +148,48 @@ $(document).ready(function() {
         "bStateSave": true,
 		"fnServerData": fnDataTablesPipeline,
 		"aoColumns": [
-	      { "mData": "engine", sTitle:"engine" },
-	      { "mData": "browser", sTitle:"browser" },
-	      { "mData": "platform", sTitle:"platform" },
-	      { "mData": "details.0", sTitle:"details" },
-	      { "mData": "details.1", sTitle:"mode details" }
+            { "mData": "engine", sTitle:"engine" },
+            { "mData": "browser", sTitle:"browser" },
+            { "mData": "platform", sTitle:"platform" },
+            { "mData": "details.0", sTitle:"details" },
+            { "mData": "details.1", sTitle:"mode details" }
 	    ],
-        "aoColumnDefs": [ {
+        "aoColumnDefs": [{
             "aTargets": [3],
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 if ( sData == "1.7" ) {
                 $(nTd).css('background-color', 'yellow')
                 }
             }
-        }]
+        }],
+        "fnDrawCallback": function( oSettings ){
+            /* Apply the jEditable handlers to the table */
+            $('td', oTable.fnGetNodes()).editable( 'example/add', {
+                callback: function( sValue, y ) {
+                    var aPos = oTable.fnGetPosition( this );
+                    oTable.fnUpdate( sValue.substr(1,sValue.length-2), aPos[0], aPos[1] );
+                },
+                submitdata: function ( value, settings ) {
+                    var positionRow = oTable.fnGetPosition( this )
+                    var oSettings = oTable.fnSettings();
+                    return {
+                        "_id": oTable.fnGetData()[positionRow[0]]._id,
+                        "column": oSettings.aoColumns[positionRow[2]].mData
+                    };
+                }
+            });
+        }
 	});
+
 
     new AutoFill(oTable);
     new FixedHeader( oTable );
 });
+
+function fnShowHide( iCol ) {
+    /* Get the DataTables object again - this is not a recreation, just a get of the object */
+    var oTable = $('#example').dataTable();
+    
+    var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
+    oTable.fnSetColumnVis( iCol, bVis ? false : true );
+}

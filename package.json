@@ -4,6 +4,7 @@
   "author" : "massintha",
   "dependencies": {
     "mongoose": ">= 3.6.15",
-    "restify": ">= 2.6.0"
+    "restify": ">= 2.6.0",
+    "querystring": "0.2.0"
   }
 }
