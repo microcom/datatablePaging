@@ -574,8 +574,8 @@ function constructSearch(query) {
 
 function search(query){
 	var searchQuery = constructSearch(query);
-		var findQuery = {
-			$and: []
+	var findQuery = {
+		$and: []
 	};
 	for (var i = 0; i < searchQuery.length; ++i){
 		findQuery.$and.push({
@@ -586,10 +586,40 @@ function search(query){
 	return findQuery;
 }
 
+function partialSearch(query) {
+	var searchQuery = {
+		$and: []
+	};
+	for (var i = 0; i< query.iColumns; i++){
+		var search = query["sSearch_"+i].trim().split(' ');
+		var constructQuery = {
+			$and: []
+		};
+		for (var j in search){
+			var construct = {};
+			construct[query["mDataProp_"+i]] = new RegExp(search[j], "i");
+			constructQuery.$and.push(construct);
+		 }
+		 searchQuery.$and.push(constructQuery);
+	}
+
+	return searchQuery;
+}
+
+function allSearch(query) {
+	var result = {
+		$and : []
+	}
+	result.$and.push(search(query));
+	result.$and.push(partialSearch(query));
+
+	return result;
+}
+
 // Data returned to the DataTable query
 server.get("/example", function(req, res, next){
 	// First find, then sort finally limit
-	directory.find(search(req.query)).sort(sort(req.query)).skip(req.query.iDisplayStart).limit(req.query.iDisplayLength).execFind(function(err, nodes){
+	directory.find(allSearch(req.query)).sort(sort(req.query)).skip(req.query.iDisplayStart).limit(req.query.iDisplayLength).execFind(function(err, nodes){
 		directory.count(function(err, count){
 			var result = {
 				"sEcho": req.query.sEcho,

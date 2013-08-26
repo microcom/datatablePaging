@@ -49,7 +49,7 @@ function fnDataTablesPipeline ( sSource, aoData, fnCallback ) {
         {
             if ( aoData[i].name != "iDisplayStart" && aoData[i].name != "iDisplayLength" && aoData[i].name != "sEcho" )
             {
-                if ( aoData[i].value != oCache.lastRequest[i].value )
+                if ( oCache.lastRequest[i] && aoData[i].value != oCache.lastRequest[i].value )
                 {
                     bNeedServer = true;
                     break;
