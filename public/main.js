@@ -190,7 +190,7 @@ $(document).ready(function() {
             null,
             null
         ]                                   
-    });
+    }).columnFilter();
 
     // Functions for cell editing
     function callback (sValue, y) {
