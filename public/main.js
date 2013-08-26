@@ -118,6 +118,7 @@ $(document).ready(function() {
         */
        "oTableTools": {
             "sSwfPath": "bower_components/datatables-tabletools/media/swf/copy_csv_xls_pdf.swf",
+            // Select only one row
             "sRowSelect": "single",
             "fnRowSelected": function ( nodes ) {
                 console.log( 'row selected' );
@@ -142,6 +143,7 @@ $(document).ready(function() {
                 }
             ]
         },
+        // Paging options
 		"bProcessing": true,
 		"bServerSide": true,
 		"sAjaxSource": 'example',
@@ -161,25 +163,49 @@ $(document).ready(function() {
                 $(nTd).css('background-color', 'yellow')
                 }
             }
-        }],
-        "fnDrawCallback": function( oSettings ){
-            /* Apply the jEditable handlers to the table */
-            $('td', oTable.fnGetNodes()).editable( 'example/add', {
-                callback: function( sValue, y ) {
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue.substr(1,sValue.length-2), aPos[0], aPos[1] );
-                },
-                submitdata: function ( value, settings ) {
-                    var positionRow = oTable.fnGetPosition( this )
-                    var oSettings = oTable.fnSettings();
-                    return {
-                        "_id": oTable.fnGetData()[positionRow[0]]._id,
-                        "column": oSettings.aoColumns[positionRow[2]].mData
-                    };
-                }
-            });
-        }
-	});
+        }]
+	}).makeEditable({
+        // Cell editing example
+        sUpdateURL: "example/add",
+        "aoColumns": [
+            null,
+            {
+                indicator: 'Saving CSS Grade...',
+                tooltip: 'Click to select CSS Grade',
+                loadtext: 'loading...',
+                type: 'select',
+                onblur: 'submit',
+                data: "{'':'Please select...', 'Netscape':'Netscape','Mozilla':'Mozilla','Chrome':'Chrome'}",
+                callback: callback,
+                submitdata: submitData
+            },
+            {
+                indicator: 'Saving platforms...',
+                tooltip: 'Click to edit platforms',
+                type: 'textarea',
+                submit:'Save changes',
+                callback: callback,
+                submitdata: submitData
+            },
+            null,
+            null
+        ]                                   
+    });
+
+    // Functions for cell editing
+    function callback (sValue, y) {
+        var aPos = oTable.fnGetPosition( this );
+        oTable.fnUpdate( sValue.substr(1,sValue.length-2), aPos[0], aPos[1] );
+    }
+
+    function submitData(value, settings) {
+         var positionRow = oTable.fnGetPosition( this )
+        var oSettings = oTable.fnSettings();
+        return {
+            "_id": oTable.fnGetData()[positionRow[0]]._id,
+            "column": oSettings.aoColumns[positionRow[2]].mData
+        };
+    }
 
 
     new AutoFill(oTable);
